@@ -1,0 +1,45 @@
+import { describe, expect, it } from 'vitest';
+import {
+  createTransaction,
+  MAX_DESCRIPTION_LENGTH,
+  ValidationError,
+} from '../../src/lib/transaction.js';
+
+const validInput = {
+  description: 'Mercado',
+  amount: '150,90',
+  type: 'despesa',
+  category: 'Alimentação',
+  date: '2026-11-20',
+};
+
+function errorsFor(input) {
+  try {
+    createTransaction(input);
+  } catch (error) {
+    if (error instanceof ValidationError) return error.errors;
+    throw error;
+  }
+  throw new Error('era esperado um ValidationError');
+}
+
+describe('createTransaction com dados válidos', () => {
+  it('cria a transação com o valor em centavos', () => {
+    const transaction = createTransaction(validInput, { idGenerator: () => 'id-1' });
+
+    expect(transaction).toEqual({
+      id: 'id-1',
+      description: 'Mercado',
+      amountCents: 15090,
+      type: 'despesa',
+      category: 'Alimentação',
+      date: '2026-11-20',
+    });
+  });
+
+  it('remove espaços extras da descrição', () => {
+    const transaction = createTransaction({ ...validInput, description: '  Padaria  ' });
+
+    expect(transaction.description).toBe('Padaria');
+  });
+});
