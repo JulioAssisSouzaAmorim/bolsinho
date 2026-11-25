@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { addTransaction, filterTransactions, removeTransaction, sortByDateDesc, summarize } from '../../src/lib/ledger.js';
+import {
+  addTransaction,
+  filterTransactions,
+  removeTransaction,
+  sortByDateDesc,
+  summarize,
+  totalsByCategory,
+} from '../../src/lib/ledger.js';
 
 function tx(overrides) {
   return {
@@ -88,5 +95,14 @@ describe('sortByDateDesc', () => {
 
     expect(sortByDateDesc(original)).toEqual([aluguel, pizza, salario, feira]);
     expect(original).toEqual(all);
+  });
+});
+
+describe('totalsByCategory', () => {
+  it('soma apenas despesas, da maior para a menor categoria', () => {
+    expect(totalsByCategory(all)).toEqual([
+      { category: 'Moradia', totalCents: 150000 },
+      { category: 'Alimentação', totalCents: 15000 },
+    ]);
   });
 });
