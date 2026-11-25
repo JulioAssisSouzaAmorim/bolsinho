@@ -13,3 +13,10 @@ export function isValidISODate(value) {
     date.getUTCDate() === day
   );
 }
+
+/** Converte "2026-11-25" em "25/11/2026". */
+export function formatDateBR(isoDate) {
+  if (!isValidISODate(isoDate)) throw new Error('Data inválida');
+  const [year, month, day] = isoDate.split('-');
+  return `${day}/${month}/${year}`;
+}
