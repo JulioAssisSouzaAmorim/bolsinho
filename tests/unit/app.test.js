@@ -53,4 +53,24 @@ describe('mountApp', () => {
 
     expect(document.querySelector('[name="date"]').value).toBe('2026-11-25');
   });
+
+  it('adiciona uma transação válida e salva no repositório', () => {
+    start();
+
+    submit({ description: 'Salário', amount: '3.000,00', type: 'receita', category: 'Salário' });
+
+    expect(text('#total-receitas')).toBe('R$ 3.000,00');
+    expect(listItems()[0].textContent).toContain('Salário');
+    expect(repository.load()).toHaveLength(1);
+  });
+
+  it('mostra mensagens de erro e não salva dados inválidos', () => {
+    start();
+
+    submit({ description: '', amount: 'abc' });
+
+    expect(text('#erros')).toContain('Informe uma descrição.');
+    expect(text('#erros')).toContain('Informe um valor maior que zero.');
+    expect(repository.load()).toEqual([]);
+  });
 });
