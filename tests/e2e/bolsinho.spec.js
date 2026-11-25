@@ -44,3 +44,16 @@ test('remover uma transação atualiza lista e saldo', async ({ page }) => {
   await expect(transactionList(page)).not.toContainText('Cinema');
   await expect(page.getByTestId('saldo')).toHaveText('-R$ 25,50');
 });
+
+test('filtros por tipo e busca reduzem a lista exibida', async ({ page }) => {
+  await addTransaction(page, { description: 'Freela de design', amount: '800', type: 'Receita', category: 'Outros' });
+  await addTransaction(page, { description: 'Farmácia', amount: '60', category: 'Saúde' });
+  await addTransaction(page, { description: 'Feira', amount: '90', category: 'Alimentação' });
+
+  await page.getByLabel('Filtrar por tipo').selectOption({ label: 'Despesas' });
+  await expect(transactionList(page).getByRole('listitem')).toHaveCount(2);
+
+  await page.getByLabel('Buscar').fill('farmacia');
+  await expect(transactionList(page).getByRole('listitem')).toHaveCount(1);
+  await expect(transactionList(page)).toContainText('Farmácia');
+});
