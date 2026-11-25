@@ -38,3 +38,14 @@ export function filterTransactions(
 export function sortByDateDesc(transactions) {
   return [...transactions].sort((a, b) => b.date.localeCompare(a.date));
 }
+
+export function totalsByCategory(transactions) {
+  const totals = new Map();
+  for (const { type, category, amountCents } of transactions) {
+    if (type !== 'despesa') continue;
+    totals.set(category, (totals.get(category) ?? 0) + amountCents);
+  }
+  return [...totals]
+    .map(([category, totalCents]) => ({ category, totalCents }))
+    .sort((a, b) => b.totalCents - a.totalCents);
+}
