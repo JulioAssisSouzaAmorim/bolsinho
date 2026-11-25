@@ -50,4 +50,13 @@ describe('createRepository', () => {
 
     expect(createRepository(storage).load()).toEqual([stored]);
   });
+
+  it('apaga os dados salvos', () => {
+    const repository = createRepository(createMemoryStorage());
+    repository.save([stored]);
+
+    repository.clear();
+
+    expect(repository.load()).toEqual([]);
+  });
 });
