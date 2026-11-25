@@ -73,4 +73,31 @@ describe('mountApp', () => {
     expect(text('#erros')).toContain('Informe um valor maior que zero.');
     expect(repository.load()).toEqual([]);
   });
+
+  it('remove uma transação ao clicar no botão de remover', () => {
+    start([aluguel]);
+
+    document.querySelector('button[aria-label="Remover Aluguel"]').click();
+
+    expect(listItems()).toHaveLength(0);
+    expect(document.querySelector('#vazio').hidden).toBe(false);
+    expect(repository.load()).toEqual([]);
+  });
+
+  it('filtra a lista pelo tipo escolhido', () => {
+    start([aluguel, { ...aluguel, id: 'b', description: 'Bônus', type: 'receita', category: 'Salário' }]);
+    const filter = document.querySelector('#filtro-tipo');
+
+    filter.value = 'receita';
+    filter.dispatchEvent(new Event('input'));
+
+    expect(listItems()).toHaveLength(1);
+    expect(listItems()[0].textContent).toContain('Bônus');
+  });
+
+  it('mostra o total de despesas por categoria', () => {
+    start([aluguel]);
+
+    expect(text('#por-categoria')).toBe('Moradia: R$ 1.500,00');
+  });
 });
