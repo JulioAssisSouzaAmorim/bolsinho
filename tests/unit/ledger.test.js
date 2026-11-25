@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addTransaction, removeTransaction, summarize } from '../../src/lib/ledger.js';
+import { addTransaction, filterTransactions, removeTransaction, summarize } from '../../src/lib/ledger.js';
 
 function tx(overrides) {
   return {
@@ -55,5 +55,19 @@ describe('summarize', () => {
 
   it('produz saldo negativo quando as despesas superam as receitas', () => {
     expect(summarize([aluguel]).balanceCents).toBe(-150000);
+  });
+});
+
+describe('filterTransactions', () => {
+  it('sem filtros devolve todas as transações', () => {
+    expect(filterTransactions(all)).toEqual(all);
+  });
+
+  it('filtra por tipo', () => {
+    expect(filterTransactions(all, { type: 'receita' })).toEqual([salario]);
+  });
+
+  it('filtra por categoria', () => {
+    expect(filterTransactions(all, { category: 'Alimentação' })).toEqual([pizza, feira]);
   });
 });
