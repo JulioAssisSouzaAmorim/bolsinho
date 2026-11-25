@@ -33,4 +33,13 @@ describe('parseAmount', () => {
   it('rejeita texto vazio', () => {
     expect(() => parseAmount('')).toThrow('Valor inválido');
   });
+
+  it('rejeita mais de duas casas decimais', () => {
+    expect(() => parseAmount('10,999')).toThrow('Valor inválido');
+  });
+
+  it('rejeita números não finitos e tipos inesperados', () => {
+    expect(() => parseAmount(Infinity)).toThrow('Valor inválido');
+    expect(() => parseAmount(null)).toThrow('Valor inválido');
+  });
 });
