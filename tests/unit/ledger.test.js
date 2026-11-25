@@ -70,4 +70,14 @@ describe('filterTransactions', () => {
   it('filtra por categoria', () => {
     expect(filterTransactions(all, { category: 'Alimentação' })).toEqual([pizza, feira]);
   });
+
+  it('busca na descrição ignorando maiúsculas e acentos', () => {
+    expect(filterTransactions(all, { search: 'SALARIO' })).toEqual([salario]);
+  });
+
+  it('combina tipo, categoria e busca', () => {
+    const result = filterTransactions(all, { type: 'despesa', category: 'Alimentação', search: 'piz' });
+
+    expect(result).toEqual([pizza]);
+  });
 });
