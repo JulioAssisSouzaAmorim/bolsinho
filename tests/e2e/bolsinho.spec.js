@@ -57,3 +57,13 @@ test('filtros por tipo e busca reduzem a lista exibida', async ({ page }) => {
   await expect(transactionList(page).getByRole('listitem')).toHaveCount(1);
   await expect(transactionList(page)).toContainText('Farmácia');
 });
+
+test('transações continuam salvas após recarregar a página', async ({ page }) => {
+  await addTransaction(page, { description: 'Curso online', amount: '199,90', category: 'Educação', date: '2026-11-03' });
+
+  await page.reload();
+
+  await expect(transactionList(page)).toContainText('Curso online');
+  await expect(transactionList(page)).toContainText('Educação · 03/11/2026');
+  await expect(page.getByRole('list', { name: 'Despesas por categoria' })).toHaveText('Educação: R$ 199,90');
+});
