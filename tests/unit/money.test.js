@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseAmount } from '../../src/lib/money.js';
+import { formatBRL, parseAmount } from '../../src/lib/money.js';
 
 describe('parseAmount', () => {
   it('converte um número inteiro em centavos', () => {
@@ -41,5 +41,15 @@ describe('parseAmount', () => {
   it('rejeita números não finitos e tipos inesperados', () => {
     expect(() => parseAmount(Infinity)).toThrow('Valor inválido');
     expect(() => parseAmount(null)).toThrow('Valor inválido');
+  });
+});
+
+describe('formatBRL', () => {
+  it('formata zero', () => {
+    expect(formatBRL(0)).toBe('R$ 0,00');
+  });
+
+  it('formata centavos com dois dígitos', () => {
+    expect(formatBRL(5)).toBe('R$ 0,05');
   });
 });
