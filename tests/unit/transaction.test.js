@@ -69,4 +69,14 @@ describe('createTransaction com dados inválidos', () => {
 
     expect(errorsFor({ ...validInput, description })).toHaveProperty('description');
   });
+
+  it('exige valor maior que zero', () => {
+    expect(errorsFor({ ...validInput, amount: '0' })).toEqual({
+      amount: 'Informe um valor maior que zero.',
+    });
+  });
+
+  it('rejeita tipo desconhecido', () => {
+    expect(errorsFor({ ...validInput, type: 'transferência' })).toHaveProperty('type');
+  });
 });
