@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isValidISODate } from '../../src/lib/date.js';
+import { formatDateBR, isValidISODate } from '../../src/lib/date.js';
 
 describe('isValidISODate', () => {
   it('aceita uma data real no formato AAAA-MM-DD', () => {
@@ -17,5 +17,15 @@ describe('isValidISODate', () => {
   it('rejeita outros formatos e tipos', () => {
     expect(isValidISODate('25/11/2026')).toBe(false);
     expect(isValidISODate(undefined)).toBe(false);
+  });
+});
+
+describe('formatDateBR', () => {
+  it('converte para o formato DD/MM/AAAA', () => {
+    expect(formatDateBR('2026-11-25')).toBe('25/11/2026');
+  });
+
+  it('lança erro para datas inválidas', () => {
+    expect(() => formatDateBR('2026-13-01')).toThrow('Data inválida');
   });
 });
