@@ -79,4 +79,18 @@ describe('createTransaction com dados inválidos', () => {
   it('rejeita tipo desconhecido', () => {
     expect(errorsFor({ ...validInput, type: 'transferência' })).toHaveProperty('type');
   });
+
+  it('rejeita categoria fora da lista', () => {
+    expect(errorsFor({ ...validInput, category: 'Viagem' })).toHaveProperty('category');
+  });
+
+  it('rejeita data inválida', () => {
+    expect(errorsFor({ ...validInput, date: '2026-02-31' })).toHaveProperty('date');
+  });
+
+  it('informa todos os campos inválidos de uma vez', () => {
+    const errors = errorsFor({});
+
+    expect(Object.keys(errors).sort()).toEqual(['amount', 'category', 'date', 'description', 'type']);
+  });
 });
