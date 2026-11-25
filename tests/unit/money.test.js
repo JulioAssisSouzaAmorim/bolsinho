@@ -17,4 +17,12 @@ describe('parseAmount', () => {
   it('aceita ponto como separador decimal quando há até duas casas', () => {
     expect(parseAmount('10.50')).toBe(1050);
   });
+
+  it('ignora o prefixo R$ e espaços ao redor', () => {
+    expect(parseAmount('  R$ 25,00 ')).toBe(2500);
+  });
+
+  it('aceita valores numéricos', () => {
+    expect(parseAmount(12.34)).toBe(1234);
+  });
 });
