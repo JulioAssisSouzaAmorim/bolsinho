@@ -42,4 +42,17 @@ describe('createTransaction com dados válidos', () => {
 
     expect(transaction.description).toBe('Padaria');
   });
+
+  it('gera identificadores diferentes por padrão', () => {
+    const first = createTransaction(validInput);
+    const second = createTransaction(validInput);
+
+    expect(first.id).not.toBe(second.id);
+  });
+
+  it('devolve uma transação imutável', () => {
+    const transaction = createTransaction(validInput);
+
+    expect(Object.isFrozen(transaction)).toBe(true);
+  });
 });
