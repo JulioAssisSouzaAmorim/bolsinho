@@ -34,3 +34,7 @@ export function filterTransactions(
       normalizeText(transaction.description).includes(term),
   );
 }
+
+export function sortByDateDesc(transactions) {
+  return [...transactions].sort((a, b) => b.date.localeCompare(a.date));
+}
