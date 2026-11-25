@@ -21,3 +21,16 @@ export function summarize(transactions) {
 function normalizeText(text) {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 }
+
+export function filterTransactions(
+  transactions,
+  { type = 'todos', category = 'todas', search = '' } = {},
+) {
+  const term = normalizeText(search.trim());
+  return transactions.filter(
+    (transaction) =>
+      (type === 'todos' || transaction.type === type) &&
+      (category === 'todas' || transaction.category === category) &&
+      normalizeText(transaction.description).includes(term),
+  );
+}
