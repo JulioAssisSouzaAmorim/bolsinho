@@ -31,4 +31,23 @@ describe('createRepository', () => {
 
     expect(JSON.parse(storage.getItem(STORAGE_KEY))).toEqual([stored]);
   });
+
+  it('ignora JSON corrompido', () => {
+    const storage = createMemoryStorage({ [STORAGE_KEY]: '{quebrado' });
+
+    expect(createRepository(storage).load()).toEqual([]);
+  });
+
+  it('ignora conteúdo que não é uma lista', () => {
+    const storage = createMemoryStorage({ [STORAGE_KEY]: '{"id":"1"}' });
+
+    expect(createRepository(storage).load()).toEqual([]);
+  });
+
+  it('descarta itens inválidos e mantém os válidos', () => {
+    const invalid = { ...stored, id: '2', amountCents: -5 };
+    const storage = createMemoryStorage({ [STORAGE_KEY]: JSON.stringify([stored, invalid, null]) });
+
+    expect(createRepository(storage).load()).toEqual([stored]);
+  });
 });
