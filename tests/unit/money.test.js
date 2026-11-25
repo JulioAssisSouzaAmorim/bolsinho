@@ -9,4 +9,12 @@ describe('parseAmount', () => {
   it('aceita vírgula como separador decimal', () => {
     expect(parseAmount('10,5')).toBe(1050);
   });
+
+  it('aceita ponto como separador de milhar', () => {
+    expect(parseAmount('1.234,56')).toBe(123456);
+  });
+
+  it('aceita ponto como separador decimal quando há até duas casas', () => {
+    expect(parseAmount('10.50')).toBe(1050);
+  });
 });
