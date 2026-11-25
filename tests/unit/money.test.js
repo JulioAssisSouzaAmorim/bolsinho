@@ -52,4 +52,12 @@ describe('formatBRL', () => {
   it('formata centavos com dois dígitos', () => {
     expect(formatBRL(5)).toBe('R$ 0,05');
   });
+
+  it('separa milhares com ponto', () => {
+    expect(formatBRL(123456789)).toBe('R$ 1.234.567,89');
+  });
+
+  it('formata valores negativos com sinal na frente', () => {
+    expect(formatBRL(-1050)).toBe('-R$ 10,50');
+  });
 });
