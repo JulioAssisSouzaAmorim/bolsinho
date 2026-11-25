@@ -24,3 +24,12 @@ test('registrar receita e despesa atualiza o resumo', async ({ page }) => {
   await expect(page.getByTestId('saldo')).toHaveText('R$ 1.800,00');
   await expect(transactionList(page).getByRole('listitem')).toHaveCount(2);
 });
+
+test('dados inválidos mostram mensagens de erro e nada é registrado', async ({ page }) => {
+  await addTransaction(page, { description: '', amount: '-5' });
+
+  const alert = page.getByRole('alert');
+  await expect(alert).toContainText('Informe uma descrição.');
+  await expect(alert).toContainText('Informe um valor maior que zero.');
+  await expect(page.getByText('Nenhuma transação encontrada.')).toBeVisible();
+});
