@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addTransaction, filterTransactions, removeTransaction, summarize } from '../../src/lib/ledger.js';
+import { addTransaction, filterTransactions, removeTransaction, sortByDateDesc, summarize } from '../../src/lib/ledger.js';
 
 function tx(overrides) {
   return {
@@ -79,5 +79,14 @@ describe('filterTransactions', () => {
     const result = filterTransactions(all, { type: 'despesa', category: 'Alimentação', search: 'piz' });
 
     expect(result).toEqual([pizza]);
+  });
+});
+
+describe('sortByDateDesc', () => {
+  it('ordena da data mais recente para a mais antiga sem alterar a original', () => {
+    const original = [...all];
+
+    expect(sortByDateDesc(original)).toEqual([aluguel, pizza, salario, feira]);
+    expect(original).toEqual(all);
   });
 });
