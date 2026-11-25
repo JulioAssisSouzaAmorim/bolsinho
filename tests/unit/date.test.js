@@ -9,4 +9,13 @@ describe('isValidISODate', () => {
   it('aceita 29 de fevereiro em ano bissexto', () => {
     expect(isValidISODate('2024-02-29')).toBe(true);
   });
+
+  it('rejeita datas que não existem no calendário', () => {
+    expect(isValidISODate('2026-02-30')).toBe(false);
+  });
+
+  it('rejeita outros formatos e tipos', () => {
+    expect(isValidISODate('25/11/2026')).toBe(false);
+    expect(isValidISODate(undefined)).toBe(false);
+  });
 });
