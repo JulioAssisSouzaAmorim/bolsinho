@@ -19,3 +19,12 @@ export function parseAmount(value) {
     : cleaned.replace(/\./g, '').replace(',', '.');
   return Math.round(Number(normalized) * 100);
 }
+
+/** Formata centavos como moeda brasileira: 123456 -> "R$ 1.234,56". */
+export function formatBRL(cents) {
+  const sign = cents < 0 ? '-' : '';
+  const abs = Math.abs(Math.round(cents));
+  const reais = String(Math.floor(abs / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const centavos = String(abs % 100).padStart(2, '0');
+  return `${sign}R$ ${reais},${centavos}`;
+}
