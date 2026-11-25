@@ -29,3 +29,13 @@ describe('addTransaction', () => {
     expect(original).toEqual([salario]);
   });
 });
+
+describe('removeTransaction', () => {
+  it('remove a transação com o id informado', () => {
+    expect(removeTransaction(all, 'a')).toEqual([salario, pizza, feira]);
+  });
+
+  it('mantém a lista quando o id não existe', () => {
+    expect(removeTransaction(all, 'inexistente')).toEqual(all);
+  });
+});
