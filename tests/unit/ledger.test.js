@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addTransaction, removeTransaction } from '../../src/lib/ledger.js';
+import { addTransaction, removeTransaction, summarize } from '../../src/lib/ledger.js';
 
 function tx(overrides) {
   return {
@@ -37,5 +37,23 @@ describe('removeTransaction', () => {
 
   it('mantém a lista quando o id não existe', () => {
     expect(removeTransaction(all, 'inexistente')).toEqual(all);
+  });
+});
+
+describe('summarize', () => {
+  it('retorna zeros para lista vazia', () => {
+    expect(summarize([])).toEqual({ incomeCents: 0, expenseCents: 0, balanceCents: 0 });
+  });
+
+  it('soma receitas, despesas e calcula o saldo', () => {
+    expect(summarize(all)).toEqual({
+      incomeCents: 500000,
+      expenseCents: 165000,
+      balanceCents: 335000,
+    });
+  });
+
+  it('produz saldo negativo quando as despesas superam as receitas', () => {
+    expect(summarize([aluguel]).balanceCents).toBe(-150000);
   });
 });
