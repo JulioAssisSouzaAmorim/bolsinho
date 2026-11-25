@@ -56,3 +56,17 @@ describe('createTransaction com dados válidos', () => {
     expect(Object.isFrozen(transaction)).toBe(true);
   });
 });
+
+describe('createTransaction com dados inválidos', () => {
+  it('exige uma descrição', () => {
+    expect(errorsFor({ ...validInput, description: '   ' })).toEqual({
+      description: 'Informe uma descrição.',
+    });
+  });
+
+  it('limita o tamanho da descrição', () => {
+    const description = 'a'.repeat(MAX_DESCRIPTION_LENGTH + 1);
+
+    expect(errorsFor({ ...validInput, description })).toHaveProperty('description');
+  });
+});
