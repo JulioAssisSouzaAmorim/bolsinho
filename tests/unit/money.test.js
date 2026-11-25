@@ -25,4 +25,12 @@ describe('parseAmount', () => {
   it('aceita valores numéricos', () => {
     expect(parseAmount(12.34)).toBe(1234);
   });
+
+  it('rejeita texto que não é um valor', () => {
+    expect(() => parseAmount('abc')).toThrow('Valor inválido');
+  });
+
+  it('rejeita texto vazio', () => {
+    expect(() => parseAmount('')).toThrow('Valor inválido');
+  });
 });
