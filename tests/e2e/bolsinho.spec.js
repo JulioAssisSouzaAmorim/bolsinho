@@ -33,3 +33,14 @@ test('dados inválidos mostram mensagens de erro e nada é registrado', async ({
   await expect(alert).toContainText('Informe um valor maior que zero.');
   await expect(page.getByText('Nenhuma transação encontrada.')).toBeVisible();
 });
+
+test('remover uma transação atualiza lista e saldo', async ({ page }) => {
+  await addTransaction(page, { description: 'Cinema', amount: '40', category: 'Lazer' });
+  await addTransaction(page, { description: 'Uber', amount: '25,50', category: 'Transporte' });
+
+  await page.getByRole('button', { name: 'Remover Cinema' }).click();
+
+  await expect(transactionList(page).getByRole('listitem')).toHaveCount(1);
+  await expect(transactionList(page)).not.toContainText('Cinema');
+  await expect(page.getByTestId('saldo')).toHaveText('-R$ 25,50');
+});
