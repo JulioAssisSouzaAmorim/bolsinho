@@ -1,0 +1,91 @@
+:root {
+  --bg: #f4f6f3;
+  --card: #ffffff;
+  --text: #1d2a22;
+  --muted: #5c6b61;
+  --brand: #1f7a4d;
+  --income: #1f7a4d;
+  --expense: #b3261e;
+  --border: #dde3dc;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topo {
+  background: var(--brand);
+  color: #fff;
+  padding: 24px 16px;
+  text-align: center;
+}
+.topo h1 { margin: 0 0 4px; font-size: 2rem; }
+.topo p { margin: 0; opacity: 0.9; }
+
+.conteudo {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.cartao {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.cartao h2 { margin-top: 0; font-size: 1.1rem; }
+.resumo, .lista { grid-column: 1 / -1; }
+
+.resumo dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0;
+}
+.resumo dt { color: var(--muted); font-size: 0.9rem; }
+.resumo dd { margin: 4px 0 0; font-size: 1.4rem; font-weight: 700; }
+#total-receitas { color: var(--income); }
+#total-despesas, #saldo.negativo { color: var(--expense); }
+
+form, .filtros { display: grid; gap: 10px; }
+.filtros { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 12px; }
+.campo { display: grid; gap: 4px; }
+label { font-size: 0.9rem; color: var(--muted); }
+input, select, button { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); }
+button[type="submit"] { background: var(--brand); color: #fff; border: none; cursor: pointer; font-weight: 600; }
+
+.erros { color: var(--expense); padding-left: 18px; margin: 8px 0 0; }
+.erros:empty { display: none; }
+
+ul { list-style: none; padding: 0; margin: 0; }
+.tx {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+.tx__info { display: grid; }
+.tx__meta { color: var(--muted); font-size: 0.85rem; }
+.tx__valor { font-weight: 700; }
+.tx--receita .tx__valor { color: var(--income); }
+.tx--despesa .tx__valor { color: var(--expense); }
+.tx__remover { background: transparent; cursor: pointer; }
+.vazio { color: var(--muted); }
+#por-categoria li { padding: 6px 0; border-top: 1px solid var(--border); }
+
+.rodape { text-align: center; color: var(--muted); padding: 16px; font-size: 0.85rem; }
+
+@media (max-width: 520px) {
+  .resumo dl { grid-template-columns: 1fr; }
+}
